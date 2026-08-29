@@ -21,3 +21,7 @@ const firebaseConfig = {
   messagingSenderId: "133138253573",
   appId: "1:133138253573:web:1ad9938e13f26b74c9d96c"
 };
+
+// Dua format export disediakan agar kompatibel dengan cara penyalinan config.
+export { firebaseConfig };
+export default firebaseConfig;

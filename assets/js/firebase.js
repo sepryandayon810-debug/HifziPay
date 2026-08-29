@@ -1,9 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js";
+import * as configModule from "./firebase-config.js";
 
-const hasPlaceholder = Object.values(firebaseConfig).some((value) =>
+const firebaseConfig = configModule.firebaseConfig || configModule.default || {};
+
+const hasPlaceholder = Object.keys(firebaseConfig).length === 0 ||
+  Object.values(firebaseConfig).some((value) =>
   String(value).includes("TEMPEL_") || String(value).includes("PROJECT_ID")
 );
 

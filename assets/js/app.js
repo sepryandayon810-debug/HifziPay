@@ -55,6 +55,14 @@ import("./menus/products.js?v=2")
   .catch((error) => {
     console.warn("Price list modular belum tersedia; memakai contoh fallback.", error);
   });
+import("./firebase.js?v=1")
+  .then(({ db }) => {
+    // db tersedia untuk modul transaksi berikutnya tanpa menaruh credential di frontend.
+    window.hifziFirebase = { db };
+  })
+  .catch((error) => {
+    console.warn("Firebase belum aktif. UI tetap berjalan dalam mode demo.", error);
+  });
 
 const serviceModal = document.getElementById("serviceModal");
 const modalTitle = document.getElementById("modalTitle");

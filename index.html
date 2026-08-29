@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <meta name="description" content="HifziPay - aplikasi PPOB modern untuk pulsa, paket data, token listrik, dan pembayaran tagihan." />
+  <title>HifziPay — PPOB Digital</title>
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --surface: #ffffff;
+      --ink: #172033;
+      --muted: #7f899f;
+      --line: #e9edf5;
+      --primary: #635bff;
+      --primary-dark: #4c45df;
+      --mint: #1dbf91;
+      --orange: #ff9a62;
+      --yellow: #ffd66b;
+      --shadow: 0 16px 40px rgba(34, 43, 78, .08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell { width: min(100%, 480px); min-height: 100vh; margin: auto; padding-bottom: 94px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 20px 12px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 13px; display: grid; place-items: center;
+      color: #fff; font-weight: 900; font-size: 19px; background: var(--primary);
+      box-shadow: 0 8px 16px rgba(99, 91, 255, .25);
+    }
+    .brand-name { font-size: 18px; font-weight: 850; letter-spacing: -.5px; }
+    .brand-name span { color: var(--primary); }
+    .icon-button {
+      width: 42px; height: 42px; border: 1px solid var(--line); background: var(--surface);
+      border-radius: 14px; color: var(--ink); display: grid; place-items: center;
+      position: relative; transition: .2s ease;
+    }
+    .icon-button:hover { border-color: #cfd3ff; color: var(--primary); }
+    .notification-dot {
+      width: 8px; height: 8px; background: #ff5e77; border: 2px solid var(--surface);
+      border-radius: 50%; position: absolute; top: 8px; right: 9px;
+    }
+    .content { padding: 0 20px; }
+    .greeting { margin: 17px 0 4px; color: var(--muted); font-size: 13px; }
+    h1 { margin: 0 0 18px; font-size: 27px; line-height: 1.15; letter-spacing: -.9px; }
+    .balance-card {
+      border-radius: 25px; padding: 22px; color: #fff; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #716aff 0%, #5149e8 100%); box-shadow: 0 18px 30px rgba(81, 73, 232, .24);
+    }
+    .balance-card::before, .balance-card::after {
+      content: ""; position: absolute; border-radius: 50%; pointer-events: none;
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .balance-card::before { width: 190px; height: 190px; right: -75px; top: -100px; }
+    .balance-card::after { width: 230px; height: 230px; right: -100px; top: -120px; }
+    .balance-label { color: #dcd9ff; font-size: 12px; }
+    .balance-amount { margin: 5px 0 19px; font-size: 27px; letter-spacing: .2px; font-weight: 800; }
+    .balance-actions { display: flex; gap: 9px; }
+    .balance-actions button {
+      border: 0; padding: 10px 15px; border-radius: 11px; font-size: 12px; font-weight: 750;
+      color: #fff; background: rgba(255,255,255,.17);
+    }
+    .balance-actions button:first-child { color: var(--primary-dark); background: #fff; }
+    .section-heading { display: flex; justify-content: space-between; align-items: center; margin: 27px 0 13px; }
+    .section-heading h2 { margin: 0; font-size: 16px; letter-spacing: -.25px; }
+    .section-heading button { border: 0; background: none; color: var(--primary); font-size: 12px; font-weight: 750; padding: 4px 0; }
+    .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 8px; }
+    .service {
+      border: 0; background: transparent; color: var(--ink); padding: 0; text-align: center;
+    }
+    .service-icon {
+      width: 53px; height: 53px; margin: auto; display: grid; place-items: center; border-radius: 18px;
+      font-size: 23px; transition: transform .2s ease;
+    }
+    .service:hover .service-icon { transform: translateY(-3px); }
+    .service-label { display: block; margin-top: 8px; color: #48516a; font-size: 11px; line-height: 1.25; }
+    .purple { color: #665dff; background: #efeeff; }
+    .blue { color: #338fe8; background: #e8f5ff; }
+    .green { color: #1bad83; background: #e6faf4; }
+    .orange { color: #ed814c; background: #fff1e8; }
+    .pink { color: #e667a4; background: #ffedf6; }
+    .gold { color: #c58b16; background: #fff7dc; }
+    .quick-list { display: grid; gap: 10px; }
+    .quick-item {
+      width: 100%; border: 1px solid var(--line); border-radius: 17px; padding: 13px 14px;
+      background: var(--surface); display: flex; align-items: center; gap: 12px; text-align: left;
+      color: var(--ink); box-shadow: 0 5px 18px rgba(38, 45, 77, .025);
+    }
+    .quick-item:hover { border-color: #cfd3ff; }
+    .quick-icon { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; font-size: 18px; }
+    .quick-copy { flex: 1; min-width: 0; }
+    .quick-title { font-size: 13px; font-weight: 800; }
+    .quick-subtitle { color: var(--muted); margin-top: 3px; font-size: 11px; }
+    .chevron { color: #aab1c0; font-size: 22px; }
+    .promo {
+      margin-top: 27px; padding: 18px 18px; min-height: 119px; overflow: hidden; position: relative;
+      border-radius: 22px; color: #fff; background: linear-gradient(110deg, #fc8d62, #ffb66d);
+    }
+    .promo::after { content: "✦"; position: absolute; right: 23px; top: 18px; font-size: 64px; color: rgba(255,255,255,.22); transform: rotate(18deg); }
+    .promo h3 { margin: 0 0 6px; font-size: 17px; }
+    .promo p { max-width: 235px; margin: 0; color: rgba(255,255,255,.86); font-size: 11px; line-height: 1.5; }
+    .promo button { border: 0; border-radius: 9px; padding: 8px 11px; margin-top: 12px; color: #e97d4e; background: #fff; font-size: 10px; font-weight: 800; }
+    .bottom-nav {
+      position: fixed; z-index: 10; bottom: 0; left: 50%; width: min(100%, 480px);
+      transform: translateX(-50%); padding: 10px 18px 13px; display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line); background: rgba(255,255,255,.93); backdrop-filter: blur(13px);
+    }
+    .nav-item { border: 0; background: none; color: #a1a9bb; font-size: 10px; display: grid; justify-items: center; gap: 4px; }
+    .nav-item svg { width: 20px; height: 20px; }
+    .nav-item.active { color: var(--primary); font-weight: 800; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 20; padding: 20px; background: rgba(20, 25, 45, .45); display: none; align-items: flex-end; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    .modal { width: min(100%, 440px); max-height: 88vh; overflow: auto; border-radius: 26px 26px 18px 18px; padding: 22px; background: var(--surface); animation: slideUp .25s ease; }
+    @keyframes slideUp { from { transform: translateY(25px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 19px; }
+    .modal h2 { margin: 0; font-size: 20px; letter-spacing: -.4px; }
+    .modal-caption { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .close-button { border: 0; background: #f1f3f8; width: 33px; height: 33px; border-radius: 10px; color: var(--muted); }
+    .field { margin: 15px 0; }
+    .field label { display: block; margin-bottom: 7px; color: #59637b; font-size: 11px; font-weight: 750; }
+    .field input {
+      width: 100%; border: 1px solid var(--line); outline: none; border-radius: 13px; padding: 13px 14px;
+      color: var(--ink); background: #fbfcfe; font-size: 14px;
+    }
+    .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,91,255,.1); }
+    .nominal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .nominal {
+      border: 1px solid var(--line); border-radius: 11px; padding: 11px 5px; color: #59637b; background: #fff; font-size: 11px; font-weight: 700;
+    }
+    .nominal.selected { color: var(--primary); border-color: var(--primary); background: #f0efff; }
+    .primary-button {
+      width: 100%; border: 0; border-radius: 13px; padding: 14px; margin-top: 8px; color: #fff;
+      background: var(--primary); font-size: 13px; font-weight: 800; box-shadow: 0 9px 18px rgba(99,91,255,.2);
+    }
+    .primary-button:hover { background: var(--primary-dark); }
+    .demo-note { margin-top: 13px; padding: 10px 12px; border-radius: 11px; color: #776020; background: #fff8df; font-size: 10px; line-height: 1.45; }
+    .toast {
+      position: fixed; z-index: 30; left: 50%; bottom: 82px; width: max-content; max-width: calc(100% - 40px);
+      transform: translate(-50%, 20px); padding: 12px 15px; border-radius: 12px; color: #fff; background: #20283b;
+      font-size: 12px; opacity: 0; pointer-events: none; transition: .25s ease;
+    }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    @media (min-width: 700px) {
+      body { padding: 24px 0; }
+      .app-shell { border-radius: 28px; box-shadow: 0 18px 60px rgba(34,43,78,.09); background: var(--bg); }
+      .bottom-nav { bottom: 24px; border: 1px solid var(--line); border-radius: 0 0 28px 28px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">H</div>
+        <div class="brand-name">Hifzi<span>Pay</span></div>
+      </div>
+      <button class="icon-button" type="button" aria-label="Notifikasi" data-action="notification">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+        <span class="notification-dot"></span>
+      </button>
+    </header>
+
+    <section class="content">
+      <p class="greeting">Selamat datang kembali,</p>
+      <h1>Bayar semua kebutuhan<br />dalam satu aplikasi.</h1>
+
+      <section class="balance-card" aria-label="Saldo HifziPay">
+        <div class="balance-label">Saldo HifziPay</div>
+        <div class="balance-amount">Rp 250.000</div>
+        <div class="balance-actions">
+          <button type="button" data-action="topup">＋ Isi Saldo</button>
+          <button type="button" data-action="history">Riwayat</button>
+        </div>
+      </section>
+
+      <div class="section-heading">
+        <h2>Layanan utama</h2>
+        <button type="button" data-action="all-services">Lihat semua</button>
+      </div>
+      <div class="service-grid">
+        <button class="service" type="button" data-service="Pulsa">
+          <span class="service-icon purple">▰</span><span class="service-label">Pulsa</span>
+        </button>
+        <button class="service" type="button" data-service="Paket Data">
+          <span class="service-icon blue">⌁</span><span class="service-label">Paket Data</span>
+        </button>
+        <button class="service" type="button" data-service="Token Listrik">
+          <span class="service-icon gold">ϟ</span><span class="service-label">Token Listrik</span>
+        </button>
+        <button class="service" type="button" data-service="Tagihan">
+          <span class="service-icon green">▤</span><span class="service-label">Tagihan</span>
+        </button>
+        <button class="service" type="button" data-service="E-Wallet">
+          <span class="service-icon pink">◉</span><span class="service-label">E-Wallet</span>
+        </button>
+        <button class="service" type="button" data-service="Voucher Game">
+          <span class="service-icon orange">◆</span><span class="service-label">Voucher Game</span>
+        </button>
+        <button class="service" type="button" data-service="BPJS">
+          <span class="service-icon blue">＋</span><span class="service-label">BPJS</span>
+        </button>
+        <button class="service" type="button" data-service="PDAM">
+          <span class="service-icon purple">⌂</span><span class="service-label">PDAM</span>
+        </button>
+      </div>
+
+      <div class="section-heading">
+        <h2>Bayar lagi</h2>
+        <button type="button" data-action="history">Riwayat</button>
+      </div>
+      <div class="quick-list">
+        <button class="quick-item" type="button" data-service="Pulsa">
+          <span class="quick-icon purple">▰</span>
+          <span class="quick-copy"><span class="quick-title">Pulsa Telkomsel</span><span class="quick-subtitle">0812 •••• 8821</span></span>
+          <span class="chevron">›</span>
+        </button>
+        <button class="quick-item" type="button" data-service="Token Listrik">
+          <span class="quick-icon gold">ϟ</span>
+          <span class="quick-copy"><span class="quick-title">Token listrik</span><span class="quick-subtitle">ID pelanggan • 7412 0988</span></span>
+          <span class="chevron">›</span>
+        </button>
+      </div>
+
+      <section class="promo">
+        <h3>Bonus pengguna baru 🎉</h3>
+        <p>Dapatkan cashback hingga Rp10.000 untuk transaksi pertama.</p>
+        <button type="button" data-action="promo">Gunakan promo</button>
+      </section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navigasi utama">
+    <button class="nav-item active" type="button" data-nav="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/><path d="M9 21v-7h6v7"/></svg>Beranda
+    </button>
+    <button class="nav-item" type="button" data-nav="transaction">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>Transaksi
+    </button>
+    <button class="nav-item" type="button" data-nav="wallet">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h13"/><path d="M21 10h-5a2 2 0 0 0 0 4h5M16 12h.01"/></svg>Dompet
+    </button>
+    <button class="nav-item" type="button" data-nav="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>Akun
+    </button>
+  </nav>
+
+  <div class="modal-backdrop" id="serviceModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <section class="modal">
+      <div class="modal-head">
+        <div><h2 id="modalTitle">Beli Pulsa</h2><p class="modal-caption" id="modalCaption">Pilih nominal transaksi Anda.</p></div>
+        <button class="close-button" type="button" data-action="close-modal" aria-label="Tutup">×</button>
+      </div>
+      <div class="field">
+        <label for="customerNumber">Nomor tujuan / ID pelanggan</label>
+        <input id="customerNumber" type="tel" inputmode="numeric" placeholder="Contoh: 081234567890" />
+      </div>
+      <div class="field">
+        <label>Pilih nominal</label>
+        <div class="nominal-grid">
+          <button class="nominal" type="button">Rp 10.000</button>
+          <button class="nominal selected" type="button">Rp 25.000</button>
+          <button class="nominal" type="button">Rp 50.000</button>
+          <button class="nominal" type="button">Rp 100.000</button>
+          <button class="nominal" type="button">Rp 150.000</button>
+          <button class="nominal" type="button">Rp 200.000</button>
+        </div>
+      </div>
+      <button class="primary-button" type="button" data-action="checkout">Lanjutkan pembayaran</button>
+      <div class="demo-note">Mode demo: tombol ini belum memproses transaksi nyata. Hubungkan ke endpoint backend Anda sebelum digunakan oleh pelanggan.</div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

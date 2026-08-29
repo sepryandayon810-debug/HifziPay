@@ -13,11 +13,11 @@
   Web Config boleh berada di GitHub, tetapi Firestore Security Rules
   tetap wajib dikunci dengan benar.
 */
-export const firebaseConfig = {
-  apiKey: "TEMPEL_API_KEY_DI_SINI",
-  authDomain: "PROJECT_ID.firebaseapp.com",
-  projectId: "PROJECT_ID",
-  storageBucket: "PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "TEMPEL_MESSAGING_SENDER_ID",
-  appId: "TEMPEL_APP_ID"
+const firebaseConfig = {
+  apiKey: "AIzaSyB7e-kIDuXoMoBKBxExEdpmIA90fkPYvPc",
+  authDomain: "hifzipay.firebaseapp.com",
+  projectId: "hifzipay",
+  storageBucket: "hifzipay.firebasestorage.app",
+  messagingSenderId: "133138253573",
+  appId: "1:133138253573:web:1ad9938e13f26b74c9d96c"
 };

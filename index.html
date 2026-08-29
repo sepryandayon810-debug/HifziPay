@@ -159,6 +159,14 @@
     }
     .primary-button:hover { background: var(--primary-dark); }
     .demo-note { margin-top: 13px; padding: 10px 12px; border-radius: 11px; color: #776020; background: #fff8df; font-size: 10px; line-height: 1.45; }
+    .auth-actions { display: grid; gap: 9px; margin-top: 17px; }
+    .secondary-button {
+      width: 100%; border: 1px solid var(--line); border-radius: 13px; padding: 13px; color: #59637b;
+      background: #fff; font-size: 13px; font-weight: 800;
+    }
+    .secondary-button:hover { border-color: #cfd3ff; color: var(--primary); }
+    .auth-status { min-height: 17px; margin: 10px 0 0; color: #d05a42; font-size: 11px; line-height: 1.4; }
+    .signed-in { padding: 14px; border-radius: 14px; color: #24795f; background: #eafaf5; font-size: 12px; line-height: 1.5; }
     .toast {
       position: fixed; z-index: 30; left: 50%; bottom: 82px; width: max-content; max-width: calc(100% - 40px);
       transform: translate(-50%, 20px); padding: 12px 15px; border-radius: 12px; color: #fff; background: #20283b;
@@ -289,6 +297,32 @@
       </div>
       <button class="primary-button" type="button" data-action="checkout">Lanjutkan pembayaran</button>
       <div class="demo-note">Mode demo: tombol ini belum memproses transaksi nyata. Hubungkan ke endpoint backend Anda sebelum digunakan oleh pelanggan.</div>
+    </section>
+  </div>
+  <div class="modal-backdrop" id="accountModal" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+    <section class="modal">
+      <div class="modal-head">
+        <div><h2 id="accountTitle">Akun HifziPay</h2><p class="modal-caption">Masuk untuk menyimpan transaksi Anda.</p></div>
+        <button class="close-button" type="button" data-action="close-account" aria-label="Tutup">×</button>
+      </div>
+      <div id="signedInPanel" class="signed-in" hidden></div>
+      <form id="authForm">
+        <div class="field">
+          <label for="authEmail">Email</label>
+          <input id="authEmail" type="email" autocomplete="email" placeholder="nama@email.com" required />
+        </div>
+        <div class="field">
+          <label for="authPassword">Password</label>
+          <input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter" minlength="6" required />
+        </div>
+        <div class="auth-actions">
+          <button class="primary-button" type="submit" data-auth-action="login">Masuk</button>
+          <button class="secondary-button" type="button" data-auth-action="signup">Buat akun baru</button>
+          <button class="secondary-button" type="button" data-auth-action="logout" hidden>Keluar</button>
+        </div>
+        <p class="auth-status" id="authStatus" role="status"></p>
+      </form>
+      <div class="demo-note">Login menggunakan Firebase Authentication. Password tidak disimpan di file GitHub.</div>
     </section>
   </div>
   <div class="toast" id="toast" role="status"></div>

@@ -1,0 +1,17 @@
+{
+  "name": "hifizpay-functions",
+  "description": "Backend HifziPay untuk Firebase dan Digiflazz",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-functions": "^6.0.1"
+  },
+  "private": true
+}
